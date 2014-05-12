@@ -355,7 +355,7 @@ def _append_with_delim(s, delim, data, key):
     else:
         return s
 	
-def _open_layer(driver_name, parameters, dirpath):
+def _open_layer(coord, driver_name, parameters, dirpath):
     """ Open a layer, return it and its datasource.
     
         Dirpath comes from configuration, and is used to locate files.
@@ -439,7 +439,7 @@ def _open_layer(driver_name, parameters, dirpath):
     #
     if driver_name == 'PostgreSQL' or driver_name == 'OCI' or driver_name == 'MySQL':
         if 'query' in parameters:
-            layer = datasource.ExecuteSQL(str(parameters['query']))
+            layer = datasource.ExecuteSQL(str(parameters['query']).replace("|z|", str(coord.zoom)))
         elif 'table' in parameters:
             layer = datasource.GetLayerByName(str(parameters['table']))
         else:
@@ -580,7 +580,7 @@ class Provider:
     def renderTile(self, width, height, srs, coord):
         """ Render a single tile, return a VectorResponse instance.
         """
-        layer, ds = _open_layer(self.driver, self.parameters, self.layer.config.dirpath)
+        layer, ds = _open_layer(coord, self.driver, self.parameters, self.layer.config.dirpath)
         features = _get_features(coord, self.properties, self.layer.projection, layer, self.clipped, self.projected, self.spacing, self.id_property)
         response = {'type': 'FeatureCollection', 'features': features}
         
