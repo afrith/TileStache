@@ -54,7 +54,7 @@ parser.add_option('-l', '--layer', dest='layer',
                   help='Layer name from configuration, typically required.')
 
 parser.add_option('-b', '--bbox', dest='bbox',
-                  help='Bounding box in floating point geographic coordinates: south west north east. Default value is %.3f, %.3f, %.3f, %.3f.' % defaults['bbox'],
+                  help='Bounding box in floating point geographic coordinates: south west north east. Default value is %.7f, %.7f, %.7f, %.7f.' % defaults['bbox'],
                   type='float', nargs=4)
 
 parser.add_option('-p', '--padding', dest='padding',
@@ -279,6 +279,16 @@ if __name__ == '__main__':
         lat1, lon1, lat2, lon2 = options.bbox
         south, west = min(lat1, lat2), min(lon1, lon2)
         north, east = max(lat1, lat2), max(lon1, lon2)
+
+        if not (-90.0 < south < 90.0) or not (-90.0 < north < 90.0):
+            raise KnownUnknown(
+                'Latitude must be a value between -90 and 90 '
+                '(Hint: Maybe you did long/lat instead of lat/long?).'
+            )
+        if not (-180.0 < west < 180.0) or not (-180.0 < east < 180.0):
+            raise KnownUnknown(
+                'Longitude must be a value between -180 and 180.'
+            )
 
         northwest = Location(north, west)
         southeast = Location(south, east)

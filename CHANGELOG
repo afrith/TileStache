@@ -1,3 +1,24 @@
+2015-01-30: 1.50.1
+- Fixed missing ttf file
+
+2015-01-21: 1.50.0
+- Added 'scale factor' option to Mapnik image provider
+- Added S3 policy specification to config
+- Added dictionary config to VecTiles config
+- Added pixel effects to all layer configurations
+- Added remote configuration to MapnikGrid to match Mapnik
+- Fixed UtfGridComposite to work with latest TileStache
+- Fixed Pillow dependency
+- Fixed "cache lifespan" in Redis cache
+
+2014-06-07: 1.49.11
+- Fixed 'allow-origin header' getting overwritten (JesseCrocker)
+- Added 'source projection' parameter to UrlTemplate provider (JesseCrocker)
+- Fixed minor AttributeError when palette256 argument is None (PerryGeo)
+- Added Timeout feature to Proxy and UrlTemplate providers (Juliomalegria)
+- Adjusted curl examples (Peter Richardson)
+- More specific error message when SpatialRef is missing (probabble)
+
 2014-05-10: 1.49.10
 - Fixed Travis build.
 - Fixed import errors for case-insensitive filesystems.
