@@ -1,7 +1,10 @@
-from unittest import TestCase
-from . import utils
+import os
+from unittest import TestCase, skipIf
 import memcache
+from . import utils
 
+
+@skipIf('OFFLINE_TESTS' in os.environ, "Offline tests only")
 class CacheTests(TestCase):
     '''Tests various Cache configurations that reads from cfg file'''
 
@@ -66,8 +69,3 @@ class CacheTests(TestCase):
 
         self.assertEqual(self.mc.get('/1/memcache_osm/0/0/0.PNG'), None,
             'Memcache returned a value even though it should have been empty')
-
-
-
-
-
